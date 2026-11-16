@@ -40,15 +40,14 @@ export const wedding = {
 
   // Dress code shown under the Details cards
   dressCode: {
-    title: "Our theme colours & white",
-    note: "We'd love to see you in soft lavender, mauve, plum, blush or white.",
+    title: "Our theme colours",
+    note: "We'd love to see you in soft lavender, mauve, plum, blush or taupe.",
     colors: [
       { name: "Lavender", hex: "#CFC5D8" },
       { name: "Mauve", hex: "#A497B0" },
       { name: "Plum", hex: "#6E5684" },
       { name: "Blush", hex: "#E8D9CF" },
       { name: "Taupe", hex: "#C8AA98" },
-      { name: "White", hex: "#FFFFFF" },
     ],
   },
 
