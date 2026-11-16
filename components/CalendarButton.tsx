@@ -53,13 +53,13 @@ export default function CalendarButton() {
         <span className="cal-ic"><Icon name="calendarPlus" size={18} stroke={1.6} /></span>
         <span className="cal-text">
           <span className="cal-title">Save Our Date</span>
-          <span className="cal-sub">Add the wedding to your calendar</span>
+          <span className="cal-sub">Add the engagement to your calendar</span>
         </span>
         <span className="cal-chev"><Icon name="chevron" size={16} stroke={1.6} /></span>
       </button>
       <div className="cal-menu" id="calMenu" role="menu" hidden={!open} onClick={() => setOpen(false)}>
         <a role="menuitem" href={google} target="_blank" rel="noopener noreferrer">Google Calendar</a>
-        <a role="menuitem" href={ics} download="wedding-invitation.ics">Apple / Outlook (.ics)</a>
+        <a role="menuitem" href={ics} download="engagement-invitation.ics">Apple / Outlook (.ics)</a>
       </div>
     </div>
   );

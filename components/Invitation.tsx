@@ -185,9 +185,12 @@ export default function Invitation({ guest = "" }: { guest?: string }) {
               <div className="hero-card-wrap">
                 <img src="/assets/sprig.webp" alt="" aria-hidden="true" className="hero-sprig" />
                 <img src="/assets/wax-seal.webp" alt="" aria-hidden="true" className="hero-seal" />
-                <img src="/assets/hero-card.webp" alt="Wedding invitation tucked into a sage envelope" className="hero-card reveal-scale" />
-                <Monogram className="hero-mono monogram" />
-                <div className="hero-date" aria-hidden="true">{wedding.dateShort}</div>
+                <div className="hero-portrait reveal-scale">
+                  <div className="hero-stage">
+                    <img src="/assets/couple.webp" alt={`Illustration of ${wedding.partner1} and ${wedding.partner2}`} className="hero-couple" />
+                    <span className="hero-badge">{wedding.dateShort}</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -218,7 +221,7 @@ export default function Invitation({ guest = "" }: { guest?: string }) {
             <img src="/assets/torn-band.webp" alt="" aria-hidden="true" className="torn" />
             <div className="band-inner reveal">
               <div className="band-script">We&apos;re getting</div>
-              <h2 className="band-title">Married</h2>
+              <h2 className="band-title">Engaged</h2>
               <Countdown to={wedding.start} />
             </div>
           </div>
@@ -294,13 +297,13 @@ export default function Invitation({ guest = "" }: { guest?: string }) {
             <div className="f-date">{wedding.dateShort}</div>
             <div className="f-script">We can&apos;t wait to celebrate with you!</div>
             <div className="f-names">{coupleNames}</div>
-            <div className="f-phones">
+            {wedding.contacts.length > 0 && <div className="f-phones">
               {wedding.contacts.map((c) => (
                 <a key={c.href} href={c.href} {...(c.whatsapp ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
                   <Icon name={c.whatsapp ? "whatsapp" : "phone"} size={15} stroke={1.6} /> {c.label}
                 </a>
               ))}
-            </div>
+            </div>}
           </div>
         </section>
 

@@ -1,53 +1,48 @@
 // All invitation content lives here: edit this file to customise the site.
 
 export const wedding = {
-  partner1: "Dulanji",
-  partner2: "Nadeesha",
-  monogram: ["D", "N"] as const,
+  partner1: "Zeinab",
+  partner2: "Ranil",
+  monogram: ["Z", "R"] as const,
 
   // Public address of the site, used for guest links and link previews.
   // Leave empty to use whatever domain the admin page is opened on.
-  baseUrl: "https://dulanji-nadeesha-invitation.vercel.app",
+  baseUrl: "",
 
-  eventName: "Wedding Registration Ceremony",
-  dateShort: "03 . 12 . 26",
-  dateLong: "03 December 2026",
-  start: "2026-12-03T09:30:00+05:30",
-  end: "2026-12-03T14:30:00+05:30",
+  eventName: "Engagement Ceremony",
+  dateShort: "11 . 12 . 26",
+  dateLong: "11 December 2026",
+  start: "2026-12-11T09:00:00+05:30",
+  end: "2026-12-11T14:00:00+05:30",
 
   parents: [
-    // Fill in names like "Mr. & Mrs. Sunil Perera"; entries left empty are hidden on the site
-    { label: "Parents of Dulanji", names: "" },
-    { label: "Parents of Nadeesha", names: "" },
+    // Entries left empty are hidden on the site
+    { label: "Parent of Zeinab", names: "Gangani Nadeeka" },
+    { label: "Parent of Ranil", names: "Jennifer" },
   ],
 
   venue: {
-    name: "Colombo Court Hotel",
-    area: "Colombo 03",
-    address: "Colombo 03, Sri Lanka",
-    mapQuery: "Colombo Court Hotel, Colombo 03, Sri Lanka",
+    name: "Green Court",
+    area: "Homagama",
+    address: "Homagama, Sri Lanka",
+    mapQuery: "Green Court, Homagama, Sri Lanka",
   },
 
   // Order of the day, shown as cards in the Details section
   events: [
-    { title: "Arrival & Settle In", time: "9:30 AM", icon: "pin", note: "Colombo Court Hotel, Colombo 03" },
-    { title: "Marriage Registration", time: "10:10 AM", icon: "rings", note: "The signing of our marriage" },
-    { title: "Bar Opens", time: "10:45 AM", icon: "glass", note: "Drinks & mingling" },
-    { title: "Toast to Love", time: "11:00 AM", icon: "heart", note: "Raise a glass with us" },
-    { title: "Lunch Served", time: "12:00 PM", icon: "utensils", note: "Lunch together" },
-    { title: "Farewell & Wrap Up", time: "2:30 PM", icon: "sparkle", note: "Thank you for celebrating with us" },
+    { title: "Arrival & Welcome", time: "9:00 AM", icon: "pin", note: "Green Court, Homagama" },
+    { title: "Engagement Ceremony", time: "To follow", icon: "rings", note: "The exchange of rings" },
+    { title: "Celebration", time: "To follow", icon: "heart", note: "Celebrate with us" },
   ],
 
-  contacts: [
-    { label: "Dulanji · 076 619 8419", href: "tel:0766198419", whatsapp: false },
-    { label: "Nadeesha · +371 28 397 103 (WhatsApp)", href: "https://wa.me/37128397103", whatsapp: true },
-  ],
+  // Add phone numbers like { label: "Zeinab · 07X XXX XXXX", href: "tel:07XXXXXXXX", whatsapp: false }
+  contacts: [] as { label: string; href: string; whatsapp: boolean }[],
 
   maxGuests: 6,
 
   // Google Apps Script web app that saves RSVPs to the sheet (google-apps-script/Code.gs).
   // The RSVP_SCRIPT_URL environment variable overrides this.
-  rsvpScriptUrl: "https://script.google.com/macros/s/AKfycbyRO7fzMXAzLATvuyPd_ys-dT7sZ1fVfItE2CuR0xtClqXkNgTvh47The8I8xenmFPDbg/exec",
+  rsvpScriptUrl: "",
 };
 
 export const coupleNames = `${wedding.partner1} & ${wedding.partner2}`;
