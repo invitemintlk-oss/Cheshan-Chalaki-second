@@ -245,6 +245,22 @@ export default function Invitation({ guest = "" }: { guest?: string }) {
               </div>
             ))}
           </div>
+
+          <div className="dress reveal">
+            <span className="ev-icon"><Icon name="hanger" size={26} stroke={1.3} /></span>
+            <span className="ev-title">Dress Code</span>
+            <div className="dress-title">{wedding.dressCode.title}</div>
+            <ul className="swatches">
+              {wedding.dressCode.colors.map((c) => (
+                <li key={c.name}>
+                  <span className="swatch" style={{ background: c.hex }} />
+                  <span className="sw-name">{c.name}</span>
+                </li>
+              ))}
+            </ul>
+            <p>{wedding.dressCode.note}</p>
+          </div>
+
           <CalendarButton />
         </section>
 

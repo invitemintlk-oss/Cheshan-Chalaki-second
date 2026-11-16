@@ -38,6 +38,20 @@ export const wedding = {
   // Add phone numbers like { label: "Zeinab · 07X XXX XXXX", href: "tel:07XXXXXXXX", whatsapp: false }
   contacts: [] as { label: string; href: string; whatsapp: boolean }[],
 
+  // Dress code shown under the Details cards
+  dressCode: {
+    title: "Our theme colours & white",
+    note: "We'd love to see you in soft lavender, mauve, plum, blush or white.",
+    colors: [
+      { name: "Lavender", hex: "#CFC5D8" },
+      { name: "Mauve", hex: "#A497B0" },
+      { name: "Plum", hex: "#6E5684" },
+      { name: "Blush", hex: "#E8D9CF" },
+      { name: "Taupe", hex: "#C8AA98" },
+      { name: "White", hex: "#FFFFFF" },
+    ],
+  },
+
   maxGuests: 6,
 
   // Google Apps Script web app that saves RSVPs to the sheet (google-apps-script/Code.gs).
