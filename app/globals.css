@@ -399,7 +399,7 @@ button { font: inherit; cursor: pointer; }
 }
 .dress-title { font-family: var(--f-head); color: var(--ink); font-size: 1.3rem; letter-spacing: 0.04em; }
 .swatches { list-style: none; margin: 0.75rem 0 0.5rem; padding: 0; display: grid; grid-template-columns: repeat(3, 4.25rem); justify-content: center; gap: 1rem 1.25rem; }
-@media (min-width: 560px) { .swatches { grid-template-columns: repeat(5, 4rem); gap: 1rem 0.75rem; } }
+@media (min-width: 560px) { .swatches { grid-template-columns: repeat(6, 4rem); gap: 1rem 0.75rem; } }
 .swatches li { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; }
 .swatch {
   width: 3rem; height: 3rem; border-radius: 50%;
