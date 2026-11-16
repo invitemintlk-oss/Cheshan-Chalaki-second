@@ -1,8 +1,8 @@
-// RSVP receiver for the wedding site.
+// RSVP receiver for the Zeinab & Ranil engagement site.
 // Paste this into Extensions > Apps Script of the RSVP spreadsheet, then deploy as a web app
 // (see google-apps-script/README.md).
 
-const SPREADSHEET_ID = "1hjg1nVQOEzMlvUFXub4oF1hw9qZYI0iNDuqlGK-Dvvc";
+const SPREADSHEET_ID = "1ukfkiDbHBMr-myCboCcR1I3P00aD-txlVuuGBvVgaXs";
 const SHEET_NAME = "RSVP";
 const HEADERS = ["Timestamp", "Name", "Attending", "Guests", "Invited As"];
 
@@ -42,7 +42,7 @@ function getSheet_() {
   if (!sheet) sheet = ss.insertSheet(SHEET_NAME);
   if (sheet.getLastRow() === 0) {
     sheet.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS])
-      .setFontWeight("bold").setBackground("#7c886b").setFontColor("#ffffff");
+      .setFontWeight("bold").setBackground("#6e5684").setFontColor("#ffffff");
     sheet.setFrozenRows(1);
     sheet.getRange("A:A").setNumberFormat("dd MMM yyyy, hh:mm a");
     sheet.setColumnWidths(1, HEADERS.length, 170);

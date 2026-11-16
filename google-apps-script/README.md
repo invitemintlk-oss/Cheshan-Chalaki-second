@@ -1,7 +1,7 @@
 # RSVP → Google Sheet
 
 RSVPs from the site are saved to the **RSVP** tab of
-[this spreadsheet](https://docs.google.com/spreadsheets/d/1hjg1nVQOEzMlvUFXub4oF1hw9qZYI0iNDuqlGK-Dvvc/edit).
+[this spreadsheet](https://docs.google.com/spreadsheets/d/1ukfkiDbHBMr-myCboCcR1I3P00aD-txlVuuGBvVgaXs/edit).
 
 Columns: **Timestamp · Name · Attending · Guests · Invited As**
 ("Invited As" is the guest name from their personal invite link, blank for the general link.)
