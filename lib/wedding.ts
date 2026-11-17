@@ -1,62 +1,67 @@
 // All invitation content lives here: edit this file to customise the site.
 
 export const wedding = {
-  partner1: "Zeinab",
-  partner2: "Ranil",
-  monogram: ["Z", "R"] as const,
+  partner1: "Cheshan",
+  partner2: "Chalaki",
+  namesSi: "චෙශාන් & චාලකි",
+  monogram: ["C", "C"] as const,
 
   // Public address of the site, used for guest links and link previews.
   // Leave empty to use whatever domain the admin page is opened on.
   baseUrl: "",
 
-  eventName: "Engagement Ceremony",
-  dateShort: "11 . 12 . 26",
-  dateLong: "11 December 2026",
-  start: "2026-12-11T09:00:00+05:30",
-  end: "2026-12-11T14:00:00+05:30",
+  eventName: "Homecoming",
+  dateShort: "23 . 01 . 27",
+  dateLong: "23 January 2027",
+  dateSi: "2027 ජනවාරි 23",
+  weekday: "Saturday",
+  dateParts: ["23", "Jan", "2027"] as const, // big date in the hero
+  timeLabel: "", // e.g. "9:00 AM": shown on the venue card as "from 9:00 AM"; empty hides it
+  // Countdown target and calendar entry. Times are placeholders until the couple confirms them.
+  start: "2027-01-23T09:00:00+05:30",
+  end: "2027-01-23T16:00:00+05:30",
 
   parents: [
     // Entries left empty are hidden on the site
-    { label: "Parent of Zeinab", names: "Gangani Nadeeka" },
-    { label: "Parent of Ranil", names: "Jennifer" },
+    { label: "Cheshan's parents", names: "දිවා ප්‍රිතීසිරි මලවිආරච්චී / කාන්ති සුධර්මා" },
+    { label: "Chalaki's parents", names: "නිමල් දයාරත්න / චන්දිමා උදයංගිකා" },
   ],
 
   venue: {
-    name: "Green Court",
-    area: "Homagama",
-    address: "Homagama, Sri Lanka",
-    mapQuery: "Green Court, Homagama, Sri Lanka",
+    name: "Lake Edge Holiday Inn",
+    area: "Tissamaharama",
+    areaSi: "තිස්සමහාරාම",
+    address: "Tissamaharama, Sri Lanka",
+    mapQuery: "Lake Edge Holiday Inn, Tissamaharama, Sri Lanka",
   },
 
-  // Order of the day, shown as cards in the Details section
+  // Order of the day, shown as road signs. Leave time empty until it is confirmed.
   events: [
-    { title: "Arrival & Welcome", time: "9:00 AM", icon: "pin", note: "Green Court, Homagama" },
-    { title: "Engagement Ceremony", time: "To follow", icon: "rings", note: "The exchange of rings" },
-    { title: "Celebration", time: "To follow", icon: "heart", note: "Celebrate with us" },
+    { title: "Start", time: "", icon: "pin", note: "ආරම්භය" },
+    { title: "Lunch", time: "", icon: "utensils", note: "දිවා භෝජනය" },
+    { title: "End", time: "", icon: "heart", note: "අවසානය" },
   ],
 
-  // Add phone numbers like { label: "Zeinab · 07X XXX XXXX", href: "tel:07XXXXXXXX", whatsapp: false }
-  contacts: [] as { label: string; href: string; whatsapp: boolean }[],
+  contacts: [
+    { label: "Cheshan · 071 248 3393", href: "tel:+94712483393", whatsapp: false },
+    { label: "Chalaki · 071 524 4018", href: "tel:+94715244018", whatsapp: false },
+  ] as { label: string; href: string; whatsapp: boolean }[],
 
-  // Dress code shown under the Details cards
+  // Dress code card in "The day". Leave colors empty to hide the card.
   dressCode: {
     title: "Our theme colours",
-    note: "We'd love to see you in soft lavender, mauve, plum, blush, taupe or white.",
-    colors: [
-      { name: "Lavender", hex: "#CFC5D8" },
-      { name: "Mauve", hex: "#A497B0" },
-      { name: "Plum", hex: "#6E5684" },
-      { name: "Blush", hex: "#E8D9CF" },
-      { name: "Taupe", hex: "#C8AA98" },
-      { name: "White", hex: "#FFFFFF" },
-    ],
+    note: "",
+    colors: [] as { name: string; hex: string }[],
   },
 
   maxGuests: 6,
 
-  // Google Apps Script web app that saves RSVPs to the sheet (google-apps-script/Code.gs).
+  // Shown on the RSVP card as "Kindly respond by ...". Leave empty for "at your earliest convenience".
+  rsvpBy: "",
+
+  // Google Apps Script web app that saves RSVPs to this couple's sheet (google-apps-script/Code.gs).
   // The RSVP_SCRIPT_URL environment variable overrides this.
-  rsvpScriptUrl: "https://script.google.com/macros/s/AKfycbzvHSXCh9NvnbWSJI6D8TTP366a4CVwVPmWbF1u5M0gEC-Y2ZHy6PdPqCUy46K5S8FBYA/exec",
+  rsvpScriptUrl: "",
 };
 
 export const coupleNames = `${wedding.partner1} & ${wedding.partner2}`;

@@ -5,44 +5,15 @@ import Icon, { type IconName } from "./Icon";
 import Countdown from "./Countdown";
 import CalendarButton from "./CalendarButton";
 import RsvpForm from "./RsvpForm";
+import PalmDrive from "./PalmDrive";
 import { coupleNames, mapsEmbed, mapsLink, wedding } from "@/lib/wedding";
 
 type Phase = "closed" | "opening" | "gone" | "removed";
 
-const sections = ["hero", "events", "venue", "rsvp", "footer"];
-
-const topNav = [
-  { id: "hero", label: "Home" },
-  { id: "events", label: "Details" },
-  { id: "rsvp", label: "RSVP" },
-  { id: "venue", label: "Location" },
-];
-
-const bottomNav: { id: string; label: string; icon: IconName }[] = [
-  { id: "hero", label: "Home", icon: "home" },
-  { id: "events", label: "Details", icon: "calendar" },
-  { id: "rsvp", label: "RSVP", icon: "mail" },
-  { id: "venue", label: "Location", icon: "pin" },
-  { id: "footer", label: "Contact", icon: "phone" },
-];
-
-const tiles: { href: string; icon: IconName; pre: string; title: string; sub?: string; accent?: boolean }[] = [
-  { href: "#events", icon: "calendar", pre: "The", title: "Details", sub: "How the day unfolds" },
-  { href: "#venue", icon: "pin", pre: "The", title: "Location", sub: "How to find us" },
-  { href: "#rsvp", icon: "mail", pre: "Kindly", title: "Rsvp", accent: true },
-  { href: "#footer", icon: "clock", pre: "The", title: "Day", sub: "Save the date" },
-];
-
 const parents = wedding.parents.filter((p) => p.names.trim());
-
-function Monogram({ className }: { className?: string }) {
-  const [a, b] = wedding.monogram;
-  return <span className={className}>{a}<span className="amp">&amp;</span>{b}</span>;
-}
 
 export default function Invitation({ guest = "" }: { guest?: string }) {
   const [phase, setPhase] = useState<Phase>("closed");
-  const [active, setActive] = useState("hero");
   const [playing, setPlaying] = useState(false);
   const audio = useRef<HTMLAudioElement>(null);
 
@@ -62,13 +33,13 @@ export default function Invitation({ guest = "" }: { guest?: string }) {
 
   function openInvite() {
     if (phase !== "closed") return;
-    playMusic(); // tapping the seal counts as the user gesture browsers require for audio
+    playMusic(); // tapping the button counts as the user gesture browsers require for audio
     setPhase("opening");
-    setTimeout(() => setPhase("gone"), 2200);
-    setTimeout(() => setPhase("removed"), 3200);
+    setTimeout(() => setPhase("gone"), 650);
+    setTimeout(() => setPhase("removed"), 1600);
   }
 
-  // Lock scrolling behind the envelope; #open skips it (handy while editing)
+  // Lock scrolling behind the cover; #open skips it (handy while editing)
   useEffect(() => {
     if (location.hash === "#open") { setPhase("removed"); return; }
     document.body.classList.add("locked");
@@ -81,10 +52,10 @@ export default function Invitation({ guest = "" }: { guest?: string }) {
     if (introDone) document.body.classList.remove("locked");
   }, [introDone]);
 
-  // Reveal-on-scroll starts once the envelope is out of the way
+  // Reveal-on-scroll starts once the cover is out of the way
   useEffect(() => {
     if (!introDone) return;
-    const els = document.querySelectorAll(".reveal, .reveal-scale");
+    const els = document.querySelectorAll(".reveal");
     const io = new IntersectionObserver((entries) => {
       entries.forEach((e) => {
         if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
@@ -94,234 +65,161 @@ export default function Invitation({ guest = "" }: { guest?: string }) {
     return () => io.disconnect();
   }, [introDone]);
 
-  useEffect(() => {
-    const onScroll = () => {
-      let current = "hero";
-      for (const id of sections) {
-        const el = document.getElementById(id);
-        if (el && el.getBoundingClientRect().top <= window.innerHeight * 0.35) current = id;
-      }
-      setActive(current);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   const introClass = [phase !== "closed" && "opening", introDone && "gone"].filter(Boolean).join(" ");
 
   return (
     <>
-      {/* ============ ENVELOPE INTRO ============ */}
+      {/* ============ COVER ============ */}
       {phase !== "removed" && (
-        <div id="intro" className={introClass} role="dialog" aria-label="Tap the wax seal to open your invitation">
-          <div className="intro-vignette" aria-hidden="true" />
-          <div className="intro-top">
+        <div id="intro" className={introClass} role="dialog" aria-label="Start the drive to open your invitation">
+          <div className="cover-card">
             <p className="intro-kicker">You are invited</p>
             <p className="intro-names">{coupleNames}</p>
-          </div>
-          <div className="envelope">
-            <img src="/assets/envelope-closed.webp" alt="" className="env-img env-closed" draggable={false} fetchPriority="high" />
-            <img src="/assets/envelope-open.webp" alt="" className="env-img env-open" draggable={false} />
-            <span className="env-guest" aria-hidden="true">{guest || "Our Dear Guest"}</span>
-            <span className="env-date" aria-hidden="true">{wedding.dateShort}</span>
-            <Monogram className="env-mono monogram" />
-            <button type="button" className="env-seal" onClick={openInvite}
-              aria-label={`Open invitation - tap the wax seal, ${wedding.partner1} and ${wedding.partner2}`}>
-              <span className="seal-halo" aria-hidden="true" />
+            {guest && <p className="intro-guest">Especially for {guest}</p>}
+            <p className="intro-date">{wedding.dateShort}</p>
+            <button type="button" className="btn" onClick={openInvite}>
+              Start the drive <Icon name="arrow" size={16} stroke={1.6} />
             </button>
           </div>
-          <p className="intro-hint">Tap the seal to open</p>
         </div>
       )}
 
       <main id="main">
-        {/* ============ HEADER ============ */}
-        <header className="site-header">
-          <a href="#hero" className="logo" aria-label={`${wedding.partner1} and ${wedding.partner2}`}>
-            {wedding.monogram[0]}<span className="amp">&amp;</span>{wedding.monogram[1]}
-          </a>
-          <nav className="top-nav">
-            {topNav.map((n) => (
-              <a key={n.id} href={`#${n.id}`} className={active === n.id ? "active" : ""}>{n.label}</a>
-            ))}
-          </nav>
-          <span aria-hidden="true" />
-        </header>
-
-        {/* ============ HERO ============ */}
-        <section id="hero" className="wrap hero">
-          <div className="hero-grid">
-            <div className="hero-text reveal">
-              <span className="kicker">Together with their families</span>
-              <h1 className="hero-names">
-                <span className="big">{wedding.partner1}</span>
-                <span className="and">and</span>
-                <span className="big">{wedding.partner2}</span>
-              </h1>
-              <p className="hero-sub">Invite you to their {wedding.eventName.toLowerCase()}</p>
-              <div className="divider" aria-hidden="true"><span /><i /><span /></div>
-              {parents.length > 0 && (
-                <div className="parents">
-                  {parents.map((p) => (
-                    <div className="parent" key={p.label}>
-                      <span className="p-label">{p.label}</span>
-                      <span className="p-names">{p.names}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
-              {guest && (
-                <div className="guest-note">
-                  <span className="gn-line">We cordially invite</span>
-                  <span className="gn-name">{guest}</span>
-                  <span className="gn-line">to celebrate our special day with us.</span>
-                </div>
-              )}
-              <a href="#rsvp" className="btn">You&apos;re invited <Icon name="arrow" size={16} stroke={1.6} /></a>
-              <a href="#events" className="scroll-cue">Scroll<span><Icon name="chevron" size={16} stroke={1.6} /></span></a>
-            </div>
-
-            <div className="hero-visual">
-              <div className="hero-card-wrap">
-                <img src="/assets/sprig.webp" alt="" aria-hidden="true" className="hero-sprig" />
-                <img src="/assets/wax-seal.webp" alt="" aria-hidden="true" className="hero-seal" />
-                <div className="hero-portrait reveal-scale">
-                  <div className="hero-stage">
-                    <img src="/assets/couple.webp" alt={`Illustration of ${wedding.partner1} and ${wedding.partner2}`} className="hero-couple" />
-                    <span className="hero-badge">{wedding.dateShort}</span>
-                  </div>
-                </div>
+        <PalmDrive>
+          {/* ============ HERO ============ */}
+          <section className="pd-hero pd-paint" aria-labelledby="pd-names">
+            <p className="pd-script">Save the date</p>
+            <p className="pd-eyebrow">Together with our families</p>
+            <h1 id="pd-names" className="pd-names">
+              <span>{wedding.partner1}</span>
+              <span className="pd-amp" aria-hidden="true">&amp;</span>
+              <span className="pd-sr">and</span>
+              <span>{wedding.partner2}</span>
+            </h1>
+            <p className="pd-si-names" lang="si">{wedding.namesSi}</p>
+            <p className="pd-hero-msg">we invite you to celebrate our {wedding.eventName.toLowerCase()}</p>            <p className="pd-date">
+              <span className="pd-date-wd">{wedding.weekday}</span>
+              <span className="pd-date-big">
+                {wedding.dateParts.map((part, i) => (
+                  <span key={part}>{i > 0 && <span className="pd-date-dot">·</span>}{part}</span>
+                ))}
+              </span>
+              <span className="pd-date-si" lang="si">{wedding.dateSi}</span>
+              <span className="pd-date-venue">{wedding.venue.name}</span>
+              <span className="pd-date-si" lang="si">{wedding.venue.areaSi}</span>
+            </p>
+            {parents.length > 0 && (
+              <div className="pd-parents">
+                {parents.map((p) => (
+                  <p key={p.label}><span className="pd-label">{p.label}</span><span lang="si">{p.names}</span></p>
+                ))}
               </div>
-            </div>
-          </div>
+            )}
+            {guest && (
+              <p className="pd-guest">
+                <span className="pd-label">Especially for</span>
+                <span className="pd-guest-line">We cordially invite</span>
+                <span className="pd-guest-name">{guest}</span>
+                <span className="pd-guest-line">to celebrate our special day with us.</span>
+              </p>
+            )}
+            <p className="pd-cue" aria-hidden="true">
+              <span>Scroll to drive</span>
+              <svg viewBox="0 0 24 24" width="18" height="18"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            </p>
+          </section>
 
-          <div className="explore reveal">
-            <div className="explore-head">
-              <span className="script-label">explore</span>
-              <h2>Our Celebration</h2>
-            </div>
-            <div className="tiles">
-              {tiles.map((t) => (
-                <a key={t.title} href={t.href} className={`tile reveal${t.accent ? " tile-accent" : ""}`}>
-                  <span className="tile-icon"><Icon name={t.icon} size={24} stroke={1.4} /></span>
-                  <span className="tile-pre">{t.pre}</span>
-                  <span className="tile-title">{t.title}</span>
-                  {t.sub && <span className="tile-sub">{t.sub}</span>}
-                </a>
-              ))}
-            </div>
-          </div>
-        </section>
+          {/* ============ COUNTDOWN ============ */}
+          <section className="pd-section pd-paint" aria-labelledby="pd-count">
+            <h2 id="pd-count" className="pd-eyebrow">Counting down</h2>
+            <p className="pd-title">Until we hit the road together</p>
+            <Countdown to={wedding.start} />
+          </section>
 
-        {/* ============ COUNTDOWN ============ */}
-        <section id="countdown" className="countdown">
-          <img src="/assets/band-sprig.webp" alt="" aria-hidden="true" className="band-sprig left" />
-          <img src="/assets/band-sprig.webp" alt="" aria-hidden="true" className="band-sprig right" />
-          <div className="band">
-            <img src="/assets/torn-band.webp" alt="" aria-hidden="true" className="torn" />
-            <div className="band-inner reveal">
-              <div className="band-script">We&apos;re getting</div>
-              <h2 className="band-title">Engaged</h2>
-              <Countdown to={wedding.start} />
+          {/* ============ THE DAY ============ */}
+          <section id="events" className="pd-section" aria-labelledby="pd-day">
+            <div className="pd-paint">
+              <h2 id="pd-day" className="pd-eyebrow">The day</h2>
+              <p className="pd-title">Order of the day</p>
             </div>
-          </div>
-        </section>
-
-        {/* ============ DETAILS ============ */}
-        <section id="events" className="wrap section">
-          <div className="sec-head reveal">
-            <span className="kicker">{wedding.dateLong}</span>
-            <h2>The <span className="script">Details</span></h2>
-            <p className="lead">Here&apos;s how our special day will unfold. We&apos;d love for you to be there for every moment.</p>
-          </div>
-          <div className="events">
-            {wedding.events.map((ev) => (
-              <div className="event reveal" key={ev.title}>
-                <span className="ev-icon"><Icon name={ev.icon as IconName} size={26} stroke={1.3} /></span>
-                <span className="ev-title">{ev.title}</span>
-                <div className="ev-time">{ev.time}</div>
-                <span className="ev-rule" aria-hidden="true" />
-                <p>{ev.note}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="dress reveal">
-            <span className="ev-icon"><Icon name="hanger" size={26} stroke={1.3} /></span>
-            <span className="ev-title">Dress Code</span>
-            <div className="dress-title">{wedding.dressCode.title}</div>
-            <ul className="swatches">
-              {wedding.dressCode.colors.map((c) => (
-                <li key={c.name}>
-                  <span className="swatch" style={{ background: c.hex }} />
-                  <span className="sw-name">{c.name}</span>
+            <ol className="pd-signs">
+              {wedding.events.map((ev, i) => (
+                <li className="pd-sign reveal" key={ev.title}>
+                  <span className="pd-sign-num">{i + 1}</span>
+                  <span className="pd-sign-body">
+                    <span className="pd-sign-title">{ev.title}</span>
+                    {ev.time && <span className="pd-sign-time">{ev.time}</span>}
+                    <span className="pd-sign-note" lang="si">{ev.note}</span>
+                  </span>
+                  <span className="pd-sign-icon"><Icon name={ev.icon as IconName} size={22} stroke={1.5} /></span>
                 </li>
               ))}
-            </ul>
-            <p>{wedding.dressCode.note}</p>
-          </div>
+            </ol>
 
-          <CalendarButton />
-        </section>
-
-        {/* ============ LOCATION ============ */}
-        <section id="venue" className="wrap section">
-          <div className="sec-head reveal">
-            <span className="kicker">How to find us</span>
-            <h2>The <span className="script">Location</span></h2>
-          </div>
-          <div className="venue-grid">
-            <div className="venue-card-col">
-              <div className="venue-card">
-                <span className="ev-icon small"><Icon name="pin" size={22} stroke={1.4} /></span>
-                <div className="venue-info">
-                  <span className="ev-title sm">Venue</span>
-                  <h3>{wedding.venue.name}</h3>
-                  <p>{wedding.venue.address}</p>
-                  <a className="dir-link" href={mapsLink} target="_blank" rel="noopener noreferrer">
-                    <Icon name="navigate" size={14} stroke={1.6} /> Get directions
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div className="map-col">
-              <div className="map">
-                <iframe title={`Map of ${wedding.venue.name}`} src={mapsEmbed} loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
-              </div>
-              <a className="btn btn-sm" href={mapsLink} target="_blank" rel="noopener noreferrer">
-                <Icon name="map" size={15} stroke={1.6} /> Open in Maps
-              </a>
-            </div>
-          </div>
-        </section>
-
-        {/* ============ RSVP ============ */}
-        <section id="rsvp" className="rsvp">
-          <div className="rsvp-inner reveal">
-            <span className="kicker">We&apos;d love to have you</span>
-            <h2 className="rsvp-title">Kindly <span className="script">Rsvp</span></h2>
-            <p className="lead narrow">Your presence is the greatest gift. Please let us know if you&apos;ll be joining us.</p>
-            <p className="rsvp-by">Please reply at your earliest convenience</p>
-            <RsvpForm defaultName={guest} />
-          </div>
-        </section>
-
-        {/* ============ FOOTER ============ */}
-        <section id="footer" className="wrap footer-sec">
-          <div className="footer-card reveal">
-            <div className="f-kicker">{wedding.eventName}</div>
-            <div className="f-date">{wedding.dateShort}</div>
-            <div className="f-script">We can&apos;t wait to celebrate with you!</div>
-            <div className="f-names">{coupleNames}</div>
-            {wedding.contacts.length > 0 && <div className="f-phones">
-              {wedding.contacts.map((c) => (
-                <a key={c.href} href={c.href} {...(c.whatsapp ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
-                  <Icon name={c.whatsapp ? "whatsapp" : "phone"} size={15} stroke={1.6} /> {c.label}
-                </a>
-              ))}
+            {wedding.dressCode.colors.length > 0 && <div className="pd-card pd-dress reveal">
+              <h3 className="pd-eyebrow pd-eyebrow-dark">Dress code</h3>
+              <p className="pd-card-title pd-card-title-sm">{wedding.dressCode.title}</p>
+              <ul className="swatches">
+                {wedding.dressCode.colors.map((c) => (
+                  <li key={c.name}>
+                    <span className="swatch" style={{ background: c.hex }} />
+                    <span className="sw-name">{c.name}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="pd-card-note">{wedding.dressCode.note}</p>
             </div>}
-          </div>
-        </section>
+          </section>
+
+          {/* ============ VENUE ============ */}
+          <section id="venue" className="pd-section" aria-labelledby="pd-venue">
+            <div className="pd-card">
+              <h2 id="pd-venue" className="pd-eyebrow pd-eyebrow-dark">The venue</h2>
+              <p className="pd-card-title">{wedding.venue.name}</p>
+              <p className="pd-card-sub">{wedding.venue.area} · <span lang="si">{wedding.venue.areaSi}</span></p>
+              <p className="pd-card-note">{wedding.weekday}, {wedding.dateLong}{wedding.timeLabel && ` · from ${wedding.timeLabel}`}</p>
+              <p className="pd-addr">{wedding.venue.address}</p>
+              <figure className="pd-map">
+                <iframe src={mapsEmbed} title={`Map showing ${wedding.venue.name}`} loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen />
+              </figure>
+              <div className="pd-actions">
+                <a href={mapsLink} target="_blank" rel="noopener noreferrer" className="btn">Directions</a>
+                <CalendarButton />
+              </div>
+            </div>
+          </section>
+
+          {/* ============ RSVP ============ */}
+          <section id="rsvp" className="pd-section" aria-labelledby="pd-rsvp">
+            <div className="pd-card pd-rsvp">
+              <h2 id="pd-rsvp" className="pd-eyebrow pd-eyebrow-dark">RSVP</h2>
+              <p className="pd-card-title">Will you ride with us?</p>
+              <p className="pd-card-italic">
+                {wedding.rsvpBy ? `Kindly respond by ${wedding.rsvpBy}` : "Kindly respond at your earliest convenience"}
+              </p>
+              <RsvpForm defaultName={guest} />
+            </div>
+          </section>
+
+          {/* ============ CLOSING ============ */}
+          <section id="footer" className="pd-section pd-paint pd-closing" aria-labelledby="pd-closing">
+            <h2 id="pd-closing" className="pd-sr">Closing</h2>
+            <p className="pd-script">Drive safe.</p>
+            <p className="pd-hero-msg">We will see you there.</p>
+            <p className="pd-closing-names">{coupleNames}</p>
+            <p className="pd-date-wd">{wedding.dateLong}</p>
+            {wedding.contacts.length > 0 && (
+              <div className="pd-phones">
+                {wedding.contacts.map((c) => (
+                  <a key={c.href} href={c.href} {...(c.whatsapp ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
+                    <Icon name={c.whatsapp ? "whatsapp" : "phone"} size={15} stroke={1.6} /> {c.label}
+                  </a>
+                ))}
+              </div>
+            )}
+            <div className="stop-line" aria-hidden="true" />
+          </section>
+        </PalmDrive>
 
         <div className="credit">
           <p>Made with love for {coupleNames}</p>
@@ -330,21 +228,6 @@ export default function Invitation({ guest = "" }: { guest?: string }) {
             <a href="https://wa.me/94707819074" target="_blank" rel="noreferrer">invitemint</a>
           </p>
         </div>
-
-        {/* ============ MOBILE BOTTOM NAV ============ */}
-        <nav className="bottom-nav" aria-label="Section navigation">
-          {bottomNav.map((n) =>
-            n.id === "rsvp" ? (
-              <a key={n.id} href="#rsvp" className="bn-rsvp">
-                <span className="bn-bubble"><Icon name="mail" size={22} /></span><span>RSVP</span>
-              </a>
-            ) : (
-              <a key={n.id} href={`#${n.id}`} className={active === n.id ? "active" : ""}>
-                <Icon name={n.icon} /><span>{n.label}</span>
-              </a>
-            )
-          )}
-        </nav>
       </main>
 
       {/* Background music: "Ordinary" (violin cover) by ViOLiNiA Zhanna Stelmakh */}

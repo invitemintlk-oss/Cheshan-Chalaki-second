@@ -33,11 +33,12 @@ export function guestFromParam(param: string): string {
   return cleanName(name);
 }
 
-export function invitationMessage(name: string, link: string, couple: string): string {
+// `event` is the invitation type from lib/wedding.ts, e.g. "Homecoming" -> "our homecoming invitation"
+export function invitationMessage(name: string, link: string, couple: string, event: string): string {
   return [
     `Dear ${name} ❤️`,
     "With joyful hearts, we warmly invite you to celebrate one of the most special days of our lives as we begin our journey together.",
-    "Please view our engagement invitation and all the event details through the link below 🌐:",
+    `Please view our ${event.toLowerCase()} invitation and all the event details through the link below 🌐:`,
     link,
     "Your presence would truly mean the world to us, and we would be honored to celebrate this beautiful moment together.",
     `With love,\n❤️ ${couple}`,

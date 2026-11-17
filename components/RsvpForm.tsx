@@ -6,6 +6,7 @@ import { wedding } from "@/lib/wedding";
 
 export default function RsvpForm({ defaultName = "" }: { defaultName?: string }) {
   const [name, setName] = useState(defaultName);
+  const [phone, setPhone] = useState("");
   const [attending, setAttending] = useState<"yes" | "no" | null>(null);
   const [guests, setGuests] = useState(1);
   const [message, setMessage] = useState("");
@@ -25,7 +26,7 @@ export default function RsvpForm({ defaultName = "" }: { defaultName?: string })
       const res = await fetch("/api/rsvp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: who, attending, guests: attending === "yes" ? guests : 0, invitedAs: defaultName }),
+        body: JSON.stringify({ name: who, phone: phone.trim(), attending, guests: attending === "yes" ? guests : 0, invitedAs: defaultName }),
       });
       const result = await res.json().catch(() => ({ ok: false }));
       if (!result.ok) throw new Error();
@@ -47,10 +48,14 @@ export default function RsvpForm({ defaultName = "" }: { defaultName?: string })
         <input id="se-name" type="text" required placeholder="Your name" value={name} onChange={(e) => setName(e.target.value)} />
       </div>
       <div className="field">
+        <label htmlFor="se-phone">Mobile number</label>
+        <input id="se-phone" type="tel" inputMode="tel" autoComplete="tel" placeholder="+94 7X XXX XXXX" value={phone} onChange={(e) => setPhone(e.target.value)} />
+      </div>
+      <div className="field">
         <p className="flabel">Will you attend?</p>
         <div className="choice">
-          <button type="button" className={attending === "yes" ? "selected" : ""} onClick={() => setAttending("yes")}>Joyfully accepts</button>
-          <button type="button" className={attending === "no" ? "selected" : ""} onClick={() => setAttending("no")}>Regretfully declines</button>
+          <button type="button" className={attending === "yes" ? "selected" : ""} onClick={() => setAttending("yes")}>Joyfully accept</button>
+          <button type="button" className={attending === "no" ? "selected" : ""} onClick={() => setAttending("no")}>Regretfully decline</button>
         </div>
       </div>
       {attending !== "no" && (
@@ -64,7 +69,7 @@ export default function RsvpForm({ defaultName = "" }: { defaultName?: string })
         </div>
       )}
       <button type="submit" className="btn btn-block" disabled={sent || sending}>
-        <Icon name="send" size={16} stroke={1.6} />{sending ? "Sending..." : sent ? "RSVP sent" : "Send our RSVP"}
+        <Icon name="send" size={16} stroke={1.6} />{sending ? "Sending..." : sent ? "RSVP sent" : "Send RSVP"}
       </button>
       <p className="form-msg" role="status" aria-live="polite">{message}</p>
     </form>

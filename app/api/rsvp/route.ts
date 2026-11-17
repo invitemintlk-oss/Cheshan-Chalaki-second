@@ -5,7 +5,7 @@ export async function POST(req: Request) {
   const url = process.env.RSVP_SCRIPT_URL || wedding.rsvpScriptUrl;
   if (!url) return Response.json({ ok: false, error: "RSVP is not configured." }, { status: 500 });
 
-  let body: { name?: string; attending?: string; guests?: number; invitedAs?: string };
+  let body: { name?: string; phone?: string; attending?: string; guests?: number; invitedAs?: string };
   try {
     body = await req.json();
   } catch {
