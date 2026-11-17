@@ -33,14 +33,15 @@ export function guestFromParam(param: string): string {
   return cleanName(name);
 }
 
-// `event` is the invitation type from lib/wedding.ts, e.g. "Homecoming" -> "our homecoming invitation"
-export function invitationMessage(name: string, link: string, couple: string, event: string): string {
+// Sinhala WhatsApp message. `name` is the display name; the "Dear" prefix is never
+// repeated because the greeting (ආදරණීය) already adds it.
+export function invitationMessage(name: string, link: string, coupleSi: string): string {
   return [
-    `Dear ${name} ❤️`,
-    "With joyful hearts, we warmly invite you to celebrate one of the most special days of our lives as we begin our journey together.",
-    `Please view our ${event.toLowerCase()} invitation and all the event details through the link below 🌐:`,
+    `ආදරණීය ${name} ❤️`,
+    "අපගේ Homecoming උත්සවයට ඔබව ඉතා ආදරයෙන් ආරාධනා කරන්නෙමු. අපගේ ජීවිතයේ මෙම සුවිශේෂී දිනය ඔබ සමඟ සැමරීමට අපි බලාපොරොත්තු වෙමු.",
+    "ඔබගේ පැමිණීම අපට මහත් සතුටක් වනු ඇත.",
+    "ආරාධනා පත්‍රය සහ සියලු විස්තර පහත සබැඳියෙන් බලන්න 🌐:",
     link,
-    "Your presence would truly mean the world to us, and we would be honored to celebrate this beautiful moment together.",
-    `With love,\n❤️ ${couple}`,
+    `ආදරයෙන්,\n❤️ ${coupleSi}`,
   ].join("\n\n");
 }

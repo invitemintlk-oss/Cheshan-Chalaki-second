@@ -8,7 +8,7 @@ export const wedding = {
 
   // Public address of the site, used for guest links and link previews.
   // Leave empty to use whatever domain the admin page is opened on.
-  baseUrl: "",
+  baseUrl: "https://cheshan-chalaki-homecoming.vercel.app",
 
   eventName: "Homecoming",
   dateShort: "23 . 01 . 27",
@@ -16,10 +16,10 @@ export const wedding = {
   dateSi: "2027 ජනවාරි 23",
   weekday: "Saturday",
   dateParts: ["23", "Jan", "2027"] as const, // big date in the hero
-  timeLabel: "", // e.g. "9:00 AM": shown on the venue card as "from 9:00 AM"; empty hides it
-  // Countdown target and calendar entry. Times are placeholders until the couple confirms them.
-  start: "2027-01-23T09:00:00+05:30",
-  end: "2027-01-23T16:00:00+05:30",
+  timeLabel: "10:00 AM", // shown on the venue card as "from 10:00 AM"; empty hides it
+  // Countdown target and calendar entry
+  start: "2027-01-23T10:00:00+05:30",
+  end: "2027-01-23T16:30:00+05:30",
 
   parents: [
     // Entries left empty are hidden on the site
@@ -37,9 +37,10 @@ export const wedding = {
 
   // Order of the day, shown as road signs. Leave time empty until it is confirmed.
   events: [
-    { title: "Start", time: "", icon: "pin", note: "ආරම්භය" },
-    { title: "Lunch", time: "", icon: "utensils", note: "දිවා භෝජනය" },
-    { title: "End", time: "", icon: "heart", note: "අවසානය" },
+    { title: "Start", time: "10:00 AM", icon: "pin", note: "ආරම්භය" },
+    { title: "Cocktail Hour", time: "12:00 PM", icon: "glass", note: "කොක්ටේල් පැය" },
+    { title: "Lunch", time: "12:30 PM", icon: "utensils", note: "දිවා භෝජනය" },
+    { title: "End", time: "4:30 PM", icon: "heart", note: "අවසානය" },
   ],
 
   contacts: [
@@ -61,13 +62,13 @@ export const wedding = {
 
   // Google Apps Script web app that saves RSVPs to this couple's sheet (google-apps-script/Code.gs).
   // The RSVP_SCRIPT_URL environment variable overrides this.
-  rsvpScriptUrl: "",
+  rsvpScriptUrl: "https://script.google.com/macros/s/AKfycbxZpHV-IRjStWzLGzbbR7iUDbLpNuwK0LjaHG1NgUyqkJ3jzDJK4PBeEYGxuHwUUXL7_A/exec",
 };
 
 export const coupleNames = `${wedding.partner1} & ${wedding.partner2}`;
 
 // Link-preview image for WhatsApp, Facebook, etc.
-export const ogImage = { url: "/assets/og-image.jpg", width: 1200, height: 1200, alt: `${coupleNames} · ${wedding.eventName}` };
+export const ogImage = { url: "/assets/og-cheshan-chalaki.jpg", width: 1200, height: 1200, alt: `${coupleNames} · ${wedding.eventName}` };
 
 export const mapsLink =
   "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(wedding.venue.mapQuery);

@@ -230,8 +230,8 @@ export default function Invitation({ guest = "" }: { guest?: string }) {
         </div>
       </main>
 
-      {/* Background music: "Ordinary" (violin cover) by ViOLiNiA Zhanna Stelmakh */}
-      <audio ref={audio} src="/assets/music.mp3" loop preload="auto" />
+      {/* Background music: "Tumhi Dekho Naa" (Kabhi Alvida Naa Kehna) - Sonu Nigam & Alka Yagnik */}
+      <audio ref={audio} src="/assets/tumhi-dekho-naa.mp3" loop preload="auto" />
       {phase !== "closed" && (
         <button type="button" className="music-btn" onClick={toggleMusic}
           aria-label={playing ? "Pause music" : "Play music"} aria-pressed={playing}>
